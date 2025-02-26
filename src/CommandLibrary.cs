@@ -15,6 +15,8 @@ class CommandLibrary
         validCommands.Add("quit");
         validCommands.Add("look");
 
+        validCommands.Add("health");
+
         validCommands.Add("up");
         validCommands.Add("down");
     }

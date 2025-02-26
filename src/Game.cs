@@ -37,9 +37,11 @@ class Game
         office.AddExit("west", lab);
 
         // Create your Items here
-        // ...
-        // And add them to the Rooms
-        // ...
+        Item medkit = new Item(3, "medkit");
+        Item key = new Item(1, "key");
+        Item book = new Item(1, "book");
+        Item laptop = new Item(2, "laptop");
+        Item phone = new Item(1, "phone");
 
         // Start game outside
         player.CurrentRoom = outside;
@@ -106,6 +108,10 @@ class Game
 
             case "down":
                 goDown(command);
+                break;
+
+            case "health":
+                getHealth(command);
                 break;
 
             case "quit":
@@ -177,5 +183,11 @@ class Game
     private void goDown(Command command)
     {
         Console.WriteLine("You go down.");
+    }
+
+    // 'health' was entered. Print the player's health.
+    private void getHealth(Command command)
+    {
+        Console.WriteLine("Player health: " + player.getHealth());
     }
 }
