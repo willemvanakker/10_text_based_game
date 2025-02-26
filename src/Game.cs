@@ -152,7 +152,9 @@ class Game
             return;
         }
 
+        player.Damage(5);
         player.CurrentRoom = nextRoom;
+        Console.WriteLine("Player health: " + player.getHealth());
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
     }
 

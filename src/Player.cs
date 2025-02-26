@@ -24,13 +24,13 @@ class Player
     }
 
     // Get player health
-    public void getHealth()
+    public int getHealth()
     {
         return health;
     }
 
     // Check if player is alive
-    public void isAlive()
+    public bool isAlive()
     {
         return health > 0;
     }
