@@ -24,7 +24,7 @@ class Player
     }
 
     // Get player health
-    public int getHealth()
+    public int GetHealth()
     {
         return health;
     }

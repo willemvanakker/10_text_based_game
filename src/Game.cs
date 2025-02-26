@@ -4,11 +4,14 @@ class Game
 {
     private Parser parser;
     private Player player;
+    private Inventory inventory;
 
     public Game()
     {
         parser = new Parser();
         player = new Player();
+        inventory = new Inventory(10);
+
         CreateRooms();
     }
 
@@ -114,6 +117,10 @@ class Game
                 getHealth(command);
                 break;
 
+            case "inventory":
+                getInventory(command);
+                break;
+
             case "quit":
                 wantToQuit = true;
                 break;
@@ -160,7 +167,7 @@ class Game
 
         player.Damage(5);
         player.CurrentRoom = nextRoom;
-        Console.WriteLine("Player health: " + player.getHealth());
+        Console.WriteLine("Player health: " + player.GetHealth());
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
     }
 
@@ -188,6 +195,12 @@ class Game
     // 'health' was entered. Print the player's health.
     private void getHealth(Command command)
     {
-        Console.WriteLine("Player health: " + player.getHealth());
+        Console.WriteLine("Player health: " + player.GetHealth());
+    }
+
+    // 'inventory' was entered. Print the player's inventory.
+    public void getInventory(Command command)
+    {
+        Console.WriteLine("Your inventory: " + inventory.GetItems());
     }
 }

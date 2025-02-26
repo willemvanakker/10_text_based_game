@@ -17,6 +17,8 @@ class CommandLibrary
 
         validCommands.Add("health");
 
+        validCommands.Add("inventory");
+
         validCommands.Add("up");
         validCommands.Add("down");
     }
