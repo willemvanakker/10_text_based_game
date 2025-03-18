@@ -14,16 +14,15 @@ class CommandLibrary
         validCommands.Add("go");
         validCommands.Add("quit");
         validCommands.Add("look");
-
         validCommands.Add("health");
-
         validCommands.Add("inventory");
-
         validCommands.Add("up");
         validCommands.Add("down");
-
         validCommands.Add("take");
         validCommands.Add("drop");
+        validCommands.Add("use");
+        validCommands.Add("fight");
+        validCommands.Add("unlock");
     }
 
     // Check whether a given string is a valid command word.
