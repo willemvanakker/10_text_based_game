@@ -210,32 +210,4 @@ class Game
     {
         Console.WriteLine("Your inventory: " + inventory.GetItems());
     }
-
-    // Damage player
-    public void Damage(int amount)
-    {
-        this.health -= amount;
-        if (this.health < 0) this.health = 0;
-        Console.WriteLine($"Player takes {amount} damage. Health: {this.health}/{this.maxHealth}");
-    }
-
-    // Health player
-    public void Heal(int amount)
-    {
-        this.health += amount;
-        if (this.health > 100) this.health = this.maxHealth;
-        Console.WriteLine($"Player heals {amount} health. Health: {this.health}/{this.maxHealth}");
-    }
-
-   // returns true if player is alive else false
-    public bool IsAlive()
-    {
-        return this.health > 0;
-    }
-    
-    // Current health of the player
-    public void Status()
-    {
-        Console.WriteLine($"Player health: {this.health}/{this.maxHealth}");
-    }
 }
