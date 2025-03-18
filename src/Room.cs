@@ -5,7 +5,7 @@ class Room
     // Private fields
     private string description;
     private Dictionary<string, Room> exits; // stores exits of this room.
-    private Inventory chest
+    private Inventory chest;
 
     public Inventory Chest {
         get {
