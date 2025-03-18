@@ -54,4 +54,18 @@ class Inventory
     {
         return maxWeight - currentWeight;
     }
+
+    public bool RemoveItem(Item item)
+    {
+        var itemName = item.Description.ToLower();
+
+        if (items.ContainsKey(itemName))
+        {
+            currentWeight -= item.Weight;
+            items.Remove(itemName);
+            return true;
+        }
+        return false;
+    }
+
 }

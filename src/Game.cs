@@ -4,16 +4,10 @@ class Game
 {
     private Parser parser;
     private Player player;
-    private Inventory inventory;
-
-    private int health;
-    private int maxHealth;
-
     public Game()
     {
         parser = new Parser();
         player = new Player();
-        inventory = new Inventory(10);
 
         CreateRooms();
     }
@@ -51,10 +45,6 @@ class Game
 
         // Start game outside
         player.CurrentRoom = outside;
-
-        // Set player health
-        health = 100;
-        maxHealth = 100;
     }
 
     //  Main play routine. Loops until end of play.
@@ -125,7 +115,19 @@ class Game
                 break;
 
             case "inventory":
-                getInventory(command);
+                player.ShowBackpack();
+                break;
+
+            case "take":
+                Take(command);
+                break;
+
+            case "drop":
+                Drop(command);
+                break;
+
+            case "use":
+                player.Use(command.SecondWord, command.ThirdWord);
                 break;
 
             case "quit":
@@ -205,9 +207,27 @@ class Game
         Console.WriteLine("Player health: " + player.GetHealth());
     }
 
-    // 'inventory' was entered. Print the player's inventory.
-    public void getInventory(Command command)
+    private void Take(Command command)
     {
-        Console.WriteLine("Your inventory: " + inventory.GetItems());
+        if (command.HasSecondWord())
+        {
+            player.TakeFromChest(command.SecondWord);
+        }
+        else
+        {
+            Console.WriteLine("Take what?");
+        }
+    }
+
+    private void Drop(Command command)
+    {
+        if (command.HasSecondWord())
+        {
+            player.DropToChest(command.SecondWord);
+        }
+        else
+        {
+            Console.WriteLine("Drop what?");
+        }
     }
 }
