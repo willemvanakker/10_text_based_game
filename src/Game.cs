@@ -43,29 +43,30 @@ class Game
         basement.AddExit("up", outside);
 
         // Create items
-        Item medkit = new Item(3, "medkit", false, 50); // healt voor 50 punten
+        Item medkit1 = new Item(3, "medkit", false, 50); // heals 50 points
+        Item medkit2 = new Item(3, "medkit", false, 50); // additional medkit
         Item key = new Item(1, "key");
         Item book = new Item(1, "book");
         Item laptop = new Item(2, "laptop");
         Item phone = new Item(1, "phone");
-        Item poisonedApple = new Item(1, "apple", true, -30); // schaadt voor 30 punten
-        Item rustyNail = new Item(1, "nail", true, -10); // schaadt voor 10 punten
+        Item poisonedApple = new Item(1, "apple", true, -15); // reduced damage to -15 points
+        Item rustyNail = new Item(1, "nail", true, -5); // reduced damage to -5 points
         Item sword = new Item(5, "sword");
 
         // Add items to rooms
         outside.AddItem(book);
         theatre.AddItem(laptop);
         pub.AddItem(poisonedApple);
-        lab.AddItem(medkit);
-        lab.AddItem(rustyNail);
+        lab.AddItem(medkit1);
+        office.AddItem(medkit2); // additional medkit in office
         office.AddItem(key);
         basement.AddItem(sword);
 
-        // Add guards to rooms
-        Guard pubGuard = new Guard("Barkeeper", 50, 10);
+        // Add guards to rooms with reduced health/damage
+        Guard pubGuard = new Guard("Barkeeper", 30, 5); // reduced from 50 health, 10 damage
         pub.SetGuard(pubGuard);
         
-        Guard basementGuard = new Guard("Security Guard", 100, 10);
+        Guard basementGuard = new Guard("Security Guard", 60, 8); // reduced from 100 health, 10 damage
         basement.SetGuard(basementGuard);
 
         // Start game outside
@@ -178,6 +179,9 @@ class Game
         Console.WriteLine("You are lost. You are alone.");
         Console.WriteLine("You wander around at the university.");
         Console.WriteLine();
+        Console.WriteLine("Your goal is to defeat the guards, find the sword in the basement,");
+        Console.WriteLine("and escape the university alive.");
+        Console.WriteLine();
         // let the parser print the commands
         parser.PrintValidCommands();
     }
@@ -221,7 +225,7 @@ class Game
             return;
         }
 
-        player.Damage(5); // Beweging kost energie
+        player.Damage(2); // Reduced movement energy cost from 5 to 2
         player.CurrentRoom = nextRoom;
         Console.WriteLine("Player health: " + player.GetHealth());
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -242,6 +246,12 @@ class Game
     private void LookArround(Command command)
     {
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
+        
+        // Also show items in the room
+        if (player.CurrentRoom.HasItems())
+        {
+            Console.WriteLine(player.CurrentRoom.GetItemString());
+        }
     }
 
     // 'up' was entered. Move up if possible.
@@ -261,6 +271,7 @@ class Game
             return;
         }
         
+        player.Damage(2); // Reduced energy cost
         player.CurrentRoom = nextRoom;
         Console.WriteLine("You go up.");
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -283,6 +294,7 @@ class Game
             return;
         }
         
+        player.Damage(2); // Reduced energy cost
         player.CurrentRoom = nextRoom;
         Console.WriteLine("You go down.");
         Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -328,6 +340,17 @@ class Game
         
         // Remove the item from the room
         Item item = player.CurrentRoom.RemoveItem(itemName);
+        
+        // Check if the item is the sword - win condition
+        if (itemName.ToLower() == "sword")
+        {
+            Console.WriteLine("You found the legendary sword! You win the game!");
+            Console.WriteLine();
+            Console.WriteLine("Thank you for playing.");
+            Console.WriteLine("Press [Enter] to continue.");
+            Console.ReadLine();
+            Environment.Exit(0); // Exit the game with a win
+        }
         
         // Add the item to the inventory
         if (inventory.Put(itemName, item))
@@ -444,7 +467,7 @@ class Game
             }
         }
         
-        int damageToGuard = hasSword ? 25 : 5;
+        int damageToGuard = hasSword ? 30 : 10; // Increased damage (was 25/5)
         
         Console.WriteLine("You attack the guard!");
         guard.TakeDamage(damageToGuard);

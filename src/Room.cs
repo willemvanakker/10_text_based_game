@@ -72,6 +72,12 @@ class Room
         return false;
     }
 
+    // Check if the room has any items
+    public bool HasItems()
+    {
+        return items.Count > 0;
+    }
+
     // Get an item from the room without removing it
     public Item GetItem(string itemName)
     {
@@ -94,7 +100,6 @@ class Room
     // Return a long description of this room, in the form:
     //     You are in the kitchen.
     //     Exits: north, west
-    //     Items: key, book
     //     A guard is here.
     public string GetLongDescription()
     {
@@ -104,9 +109,8 @@ class Room
         str += description;
         str += ".\n";
         str += GetExitString();
-        str += "\n";
         
-        if (guard != null)
+        if (guard != null && guard.IsAlive())
         {
             str += "\nA guard is here. Health: " + guard.Health;
         }
@@ -115,7 +119,7 @@ class Room
     }
 
     // Return a string describing the items in the room
-    private string GetItemString()
+    public string GetItemString()
     {
         if (items.Count == 0)
         {
